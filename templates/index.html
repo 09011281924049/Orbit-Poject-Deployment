@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <title>Aplikasi Prediksi Biaya Asuransi</title>
+</head>
+
+<body class="
+            p-1
+            md:p-8
+            min-h-screen
+            bg-gradient-to-r
+            from-purple-600
+            to-blue-500
+            text-gray-800
+        ">
+    <main class="bg-white p-1 md:p-16 rounded-lg">
+        <div class="shadow-lg rounded-lg mb-8">
+            <div class="p-3 md:py-3 md:px-5 bg-gray-100">Prediksi Pembelian</div>
+            <canvas class="p-1 md:p-5" id="chartLine"></canvas>
+        </div>
+
+        <form action="{{ url_for('predict') }}" method="post" class="flex md:flex-row flex-col justify-around">
+            <div class="flex flex-col">
+                <label for="Start">Prediksi Berapa Bulan</label>
+                <input type="number" name="Months" value="{{ months }}" placeholder="Berapa Bulan" required="required"
+                    class="p-4 bg-gray-100 rounded-md" />
+            </div>
+            <div class="flex flex-col">
+                <button type="submit" class="
+                            flex
+                            justify-center
+                            align-center
+                            mt-8
+                            p-4
+                            bg-gradient-to-r
+                            from-purple-600
+                            to-blue-500
+                            text-white
+                            rounded-md
+                        ">
+                    PREDIKSI PEMBELIAN
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-arrow-right ml-4">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </form>
+    </main>
+</body>
+
+<!-- Required chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+<!-- Chart line -->
+<script>
+    //{% autoescape false %}
+    var jsonData = '{{ purchase }}';
+    //{% endautoescape %}
+
+    var data = {
+        labels: [],
+        datasets: [
+            {
+                label: "Pembelian",
+                backgroundColor: "hsl(252, 82.9%, 67.8%)",
+                borderColor: "hsl(252, 82.9%, 67.8%)",
+                data: jsonData.length > 1 
+                    ? Object.entries(JSON.parse(jsonData)).map(([x, y]) => ({x: +x, y}))
+                    : [],
+            },
+        ],
+    };
+
+    var configLineChart = {
+        type: "line",
+        data,
+        options: {
+            scales: {
+                x: {
+                    parsing: false,
+                    type: 'time',
+                    time: {
+                        unit: 'year'
+                    }
+                }
+            }
+        }
+    };
+
+    var chartLine = new Chart(
+        document.getElementById("chartLine"),
+        configLineChart
+    );
+</script>
+
+</html>
