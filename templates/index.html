@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
-    <title>Aplikasi Prediksi Biaya Asuransi</title>
+    <title>Aplikasi Prediksi Pembeliam</title>
 </head>
 
 <body class="
@@ -18,24 +18,22 @@
             to-blue-500
             text-gray-800
         ">
-    <main class="bg-white p-1 md:p-16 rounded-lg">
-        <div class="shadow-lg rounded-lg mb-8">
-            <div class="p-3 md:py-3 md:px-5 bg-gray-100">Prediksi Pembelian</div>
-            <canvas class="p-1 md:p-5" id="chartLine"></canvas>
-        </div>
+    <main class="bg-white p-1 md:p-12 rounded-lg grid grid-rows-1 grid-cols-1 md:grid-cols-2 md:grid-rows-1 gap-8">
+	<div class="md:col-span-2 row-span-1"><h1 class="text-3xl">JUDUL</h1></div>
 
-        <form action="{{ url_for('predict') }}" method="post" class="flex md:flex-row flex-col justify-around">
+        <form action="{{ url_for('predict') }}" method="post" class="col-span-1 row-span-1 flex flex-col justify-center md:justify-start">
             <div class="flex flex-col">
                 <label for="Start">Prediksi Berapa Bulan</label>
                 <input type="number" name="Months" value="{{ months }}" placeholder="Berapa Bulan" required="required"
                     class="p-4 bg-gray-100 rounded-md" />
             </div>
-            <div class="flex flex-col">
+            <div class="w-full">
                 <button type="submit" class="
                             flex
+                            w-full
                             justify-center
                             align-center
-                            mt-8
+                            md:mt-8
                             p-4
                             bg-gradient-to-r
                             from-purple-600
@@ -53,6 +51,10 @@
                 </button>
             </div>
         </form>
+        <div class="col-span-1 row-span-2 md:row-span-1 shadow-lg rounded-lg w-full">
+            <div class="p-3 md:py-3 md:px-5 bg-gray-100">Prediksi Pembelian</div>
+            <canvas class="p-1 md:p-5" id="chartLine"></canvas>
+        </div>
     </main>
 </body>
 
